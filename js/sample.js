@@ -49,7 +49,20 @@
   }
 
   head.js(
-    "/js/samples/cube.js",
+    "/js/samples/empty-scene.js",
+    "/js/samples/spinning-cube.js",
     "/js/samples/simple-cube.js",
+    "/js/samples/stationary-cube.js",
+    "/js/samples/rotated-cube.js",
+    "/js/samples/rotated-cube-wireframe.js",
+    "/js/samples/rotated-sphere.js",
+    "/js/samples/rotated-donut.js",
+    "/js/samples/rotating-cube.js",
+    "/js/samples/rotating-cube-and-sphere.js",
+    "/js/samples/cube-and-sphere-control.js",
+    "/js/samples/spinning-earth.js",
+    "/js/samples/animation-text.js",
+    "/js/samples/spinning-mars.js",
+    "/js/samples/teapot.js",
     initializeOnLoad);
 })();

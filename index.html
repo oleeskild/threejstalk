@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/blood.css">
+		<link rel="stylesheet" href="css/theme/serif.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -17,6 +17,9 @@
 			}
 			.col {
 				flex: 1;
+			}
+			.illustration {
+				font-size: 80px !important;
 			}
 		</style>
 
@@ -38,49 +41,273 @@
 				<section data-markdown>
 					<textarea data-template>
 						### Hva er three.js
-						* Rammeverk
-						* Bruker WebGL
+						* Rammeverk for 3D-grafikk på Web
+						* Bruker (bl.a.) WebGL
 					</textarea>
-				</section>
 
-				<section>
-					Bygge opp verktøy kasse
-				</section>
-
-				<section>
-					<section>
-						Scene Camera Renderer
-					</section>
-					<section>
-						
-								<pre><code data-trim>
-										var scene = new THREE.Scene();
-										var aspect = window.innerWidth / window.innerHeight;
-										var camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 );
-										var renderer = new THREE.WebGLRenderer();
-										renderer.setSize( window.innerWidth, window.innerHeight );
-										document.body.appendChild( renderer.domElement );
-								</code></pre>
-					</section>
 				</section>
 
 				<section>
 					<section>
-						<h1>Geometri</h1>
+						<aside class="notes">
+							Et helt barebones setup inneholder tre ting. Scene, kamera og renderer
+						</aside>
+						<h3>Setup</h3>
+						<p class="fragment fade-up illustration">🎭</p>
+						<span class="fragment fade-left illustration">🎥</span>
+						<span class="fragment fade-right illustration">⚙️</span>
 					</section>
-					<!-- <section data-background-iframe="./iframes/cube.html"> -->
-						<section>						
-							<canvas data-sample="simple_cube"></canvas>
+					<section>
+						<pre><code data-trim>
+								var scene = new THREE.Scene();
+								var aspect = window.innerWidth / window.innerHeight;
+								var camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 );
+								var renderer = new THREE.WebGLRenderer({canvas: canvasElem});
+								renderer.setSize( window.innerWidth, window.innerHeight );
+								renderer.render(scene, camera);
+						</code></pre>
+						<h4>🔻</h4>
+						<canvas data-sample="empty_scene"></canvas>
+					</section>
+				</section>
+
+				<section >
+						<section>
+								<aside class="notes">
+									For å vise objekt trenger vi et geometriobjekt, et materiale og et mesh
+								</aside>
+								<h3>Object setup</h3>
+								<p class="fragment fade-up">Geometry</p>
+								<span class="fragment fade-left">Material</span>
+								<span class="fragment fade-right">Mesh</span>
+						</section>
+						<section>
+							<h3>Geometry</h3>
+							<h4>Kube</h4>
 							<pre><code data-trim>
-										var scene = new THREE.Scene();
-										var camera = new THREE.PerspectiveCamera();
-										camera.position.set(0, 3, 7);
-										camera.lookAt( new THREE.Vector3(0,0,0));
-										var scale = 2.5;
-										var geometry = new THREE.CubeGeometry( scale, scale, scale );
-										var material = new THREE.MeshBasicMaterial( { color: 0xdddddd } );;
+      					var geometry = new THREE.CubeGeometry();
 							</code></pre>
+							<h4>Kule</h4>
+							<pre><code data-trim>
+									var geometry = new THREE.SphereGeometry();
+								</code></pre>
+						</section>
+						<section>
+								<h3>Material</h3>
+								<pre><code data-trim>
+      						var material = new THREE.MeshBasicMaterial();
+								</code></pre>
+								<pre><code data-trim>
+      						var material = new THREE.MeshNormalMaterial();
+								</code></pre>
+						</section>
+						<section>
+							<h3>Mesh</h3>
+							<pre><code data-trim>
+								var mesh = new THREE.Mesh(geometry, material);
+							</code></pre>
+						</section>
+				</section>
+
+				<section>
+					<section>
+						Opprette objekter
 					</section>
+					<section>
+								<aside class="notes">
+									Opprettelse av en kube
+								</aside>
+							<pre><code data-trim data-noescape>
+									var geometry = new THREE.CubeGeometry();
+									<span class="fragment">var material = new THREE.MeshNormalMaterial();
+									var cubeMesh = new THREE.Mesh(geometry, material);</span>
+									<span class="fragment">scene.add(cubeMesh);</span>
+									<span class="fragment">var renderer = new THREE.WebGLRenderer({canvas: canvas});
+									renderer.setSize( sample_defaults.width, sample_defaults.height );
+									renderer.render( scene, camera );</span>
+							</code></pre>
+							<h4>🔻</h4>
+						<canvas class="fragment" data-sample="stationay_cube"></canvas>
+					</section>
+
+					<section>
+						<aside class="notes">
+							Rotering av kube
+						</aside>
+						<pre><code data-trim data-noescape>
+									<span class="fragment">cubeMesh.rotation.x += 0.8;</span>
+									<span class="fragment">cubeMesh.rotation.y += 0.8;</span>
+							</code></pre>
+							<h4>🔻</h4>
+						<canvas class="fragment" data-sample="rotated_cube"></canvas>
+					</section>	
+
+					<section>
+						<aside class="notes">
+							Legge til wireframe for å faktisk se polygonene den er laget av
+						</aside>
+							<pre><code data-trim data-noescape>
+									<span class="fragment">material.wireframe = true;</span>
+							</code></pre>
+							<h4>🔻</h4>
+						<canvas class="fragment" data-sample="rotated_cube_wireframe"></canvas>
+					</section>	
+					<section>
+						<aside class="notes">
+							Dersom vi vil lage en kul
+						</aside>
+							<pre><code data-trim data-noescape>
+									<span class="fragment">var geometry = new THREE.SphereGeometry();</span>
+							</code></pre>
+							<h4>🔻</h4>
+						<canvas class="fragment" data-sample="rotated_sphere"></canvas>
+					</section>	
+					<section>
+						<aside class="notes">
+							Dersom vi vil lage en kul
+						</aside>
+							<pre><code data-trim data-noescape>
+									<span class="fragment">var geometry = new THREE.TorusGeometry();</span>
+							</code></pre>
+							<h4>🔻</h4>
+							<canvas class="fragment" data-sample="rotated_donut"></canvas>
+					</section>
+					<section>
+						<canvas data-sample="animation_text"></canvas>
+					</section>
+					<section>
+						<aside class="notes">
+							Slik så det ut fra før av. Vi må endre nederste linje
+						</aside>
+						<pre><code data-trim data-noescape>
+								var geometry = new THREE.CubeGeometry();
+								var material = new THREE.MeshNormalMaterial();
+								var cubeMesh = new THREE.Mesh(geometry, material);
+								scene.add(cubeMesh);
+								var renderer = new THREE.WebGLRenderer({canvas: canvas});
+								renderer.setSize( width, height );
+								renderer.render( scene, camera );
+						</code></pre>
+					</section>
+					
+					<section>
+						<pre><code data-trim data-noescape>
+								renderer.render( scene, camera );
+						</code></pre>
+							<h4>🔻</h4>
+						<pre class="fragment"><code data-trim>
+								function animate() {
+									requestAnimationFrame(animate, canvas);
+					
+									mesh.rotation.x += 0.08;
+					
+									renderer.render( scene, camera );
+								}
+					
+								animate();
+						</code></pre>
+						<canvas class="fragment" data-sample="rotating_cube"></canvas>
+					</section>
+					<section>
+						<aside class="notes">
+							Legge til enda et objekt
+						</aside>
+						<pre><code data-trim data-noescape>
+								var cubeGeo = new THREE.CubeGeometry();
+								var material = new THREE.MeshNormalMaterial();
+								var cubeMesh = new THREE.Mesh(cubeGeo, material);
+
+								var sphereGeo = new THREE.CubeGeometry();
+								var material = new THREE.MeshNormalMaterial();
+								var sphereMesh = new THREE.Mesh(sphereGeo, material);
+
+      					sphereMesh.position.x += 3;
+      					cubeMesh.position.x -= 3;
+
+								scene.add(cubeMesh);
+								scene.add(sphereMesh);
+						</code></pre>
+							<h4>🔻</h4>
+							<canvas class="fragment" data-sample="rotating_cube_and_sphere"></canvas>
+					</section>
+					<section>
+						<aside class="notes">
+							Enkelt å legge til kontroller. Kan også legge til vr kontroller
+						</aside>
+						<h3>Interaktivitet</h3>
+						<pre class="fragment"><code data-trim data-noescape>
+      				var control = new THREE.OrbitControls(camera);
+						</code></pre>
+						<div class="fragment">
+							<h4>🔻</h4>
+							<canvas data-sample="rotating_cube_and_sphere_control"></canvas>
+						</div>
+					</section>
+					<section>
+						<aside class="notes">
+							Legge til egendefinerte teksturer, som bilder
+						</aside>
+						<h3>Texture</h3>
+						<pre><code data-trim data-noescape>
+							var loader = new THREE.TextureLoader();
+							loader.load('img/earth.jpg', function(texture){
+								var material = new THREE.MeshBasicMaterial( { map: texture } );
+								var sphereGeo = new THREE.SphereGeometry();
+								var sphereMesh = new THREE.Mesh(sphereGeo, material);
+								globe.add(sphereMesh);
+							});
+							</code></pre>
+							<h4>🔻</h4>
+						<canvas class="fragment" data-sample="spinning_earth"></canvas>
+					</section>
+					<section>
+						<aside class="notes">
+							Enkelt å bytte bilde
+						</aside>
+							<pre><code data-trim data-noescape>
+								var loader = new THREE.TextureLoader();
+								loader.load('img/mars.jpg', function(texture){
+									var material = new THREE.MeshBasicMaterial( { map: texture } );
+									var sphereGeo = new THREE.SphereGeometry();
+									var sphereMesh = new THREE.Mesh(sphereGeo, material);
+									globe.add(sphereMesh);
+								});
+							</code></pre>
+								<h4>🔻</h4>
+								<canvas class="fragment" data-sample="spinning_mars"></canvas>
+					</section>
+				</section>
+
+
+				
+
+				<section>
+					<section>
+						<h1>Predefinerte 3D-modeller</h1>
+						<h3>.obj ➡️ .json</h3>
+					</section>
+					<section>
+							<pre><code data-trim data-noescape>
+									var loader = new THREE.ObjectLoader();
+									loader.load("meshes/teapot.json", function(obj) {
+										var material = new THREE.MeshNormalMaterial();
+										obj.material = material;
+										group.add(obj);
+						
+										animate();
+									});
+								</code></pre>
+						<canvas class="fragment" data-sample="teapot"></canvas>
+					</section>
+				</section>
+				<section>
+					<h2>three.js in the wild</h2>
+					<div>
+						<a target="_blank" href="https://renaultespace.littleworkshop.fr/">Renault Espace</a>
+					</div>
+					<div>
+						<a target="_blank" href="https://www.nationalgeographic.com/science/2016/11/exploring-mars-map-panorama-pictures/">Rewind the red planet</a>
+					</div>
 				</section>
 			</div>
 		</div>
