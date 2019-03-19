@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/blood.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<style>
+			.container {
+				display: flex;
+			}
+			.col {
+				flex: 1;
+			}
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>three.js</h1>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						### Hva er three.js
+						* Rammeverk
+						* Bruker WebGL
+					</textarea>
+				</section>
+
+				<section>
+					Bygge opp verktøy kasse
+				</section>
+
+				<section>
+					<section>
+						Scene Camera Renderer
+					</section>
+					<section>
+						
+								<pre><code data-trim>
+										var scene = new THREE.Scene();
+										var aspect = window.innerWidth / window.innerHeight;
+										var camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 );
+										var renderer = new THREE.WebGLRenderer();
+										renderer.setSize( window.innerWidth, window.innerHeight );
+										document.body.appendChild( renderer.domElement );
+								</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>Geometri</h1>
+					</section>
+					<!-- <section data-background-iframe="./iframes/cube.html"> -->
+						<section>						
+							<canvas data-sample="simple_cube"></canvas>
+							<pre><code data-trim>
+										var scene = new THREE.Scene();
+										var camera = new THREE.PerspectiveCamera();
+										camera.position.set(0, 3, 7);
+										camera.lookAt( new THREE.Vector3(0,0,0));
+										var scale = 2.5;
+										var geometry = new THREE.CubeGeometry( scale, scale, scale );
+										var material = new THREE.MeshBasicMaterial( { color: 0xdddddd } );;
+							</code></pre>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script
+		src="http://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>	
+		<script src="js/three.js"></script>
+		<script src="js/OrbitControl.js"></script>
+		<script src="js/sample.js"></script>
+
+		<script>
+
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
