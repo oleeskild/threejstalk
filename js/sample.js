@@ -64,5 +64,6 @@
     "/js/samples/animation-text.js",
     "/js/samples/spinning-mars.js",
     "/js/samples/teapot.js",
+    "/js/samples/tacky-thanks.js",
     initializeOnLoad);
 })();
