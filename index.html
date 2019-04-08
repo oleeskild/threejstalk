@@ -38,13 +38,16 @@
 				<section>
 					<h1>three.js</h1>
 				</section>
-				<section data-markdown>
-					<textarea data-template>
-						### Hva er three.js
-						* Rammeverk for 3D-grafikk på Web
-						* Bruker (bl.a.) WebGL
-					</textarea>
-
+				<section>
+						<aside class="notes">
+							Dette vil være en praktisk innføring i hvordan vi får three.js til å faktisk vise noe for brukeren. 
+							Kommer ikke til å gå i detalj for hvordan WebGl osv funker. 
+						</aside>
+						<h3>Hva er three.js</h3>
+						<ul>
+							<li>Rammeverk for 3D-grafikk på Web</li>
+							<li>Bruker (bl.a.) WebGL</li>
+						</ul>
 				</section>
 
 				<section>
@@ -53,9 +56,9 @@
 							Et helt barebones setup inneholder tre ting. Scene, kamera og renderer
 						</aside>
 						<h3>Setup</h3>
-						<p class="fragment fade-up illustration">🎭</p>
-						<span class="fragment fade-left illustration">🎥</span>
-						<span class="fragment fade-right illustration">⚙️</span>
+						<p class="fragment fade-up illustration">Scene</p>
+						<span class="fragment fade-left illustration">Camera</span>
+						<span class="fragment fade-right illustration">Renderer</span>
 					</section>
 					<section>
 						<pre><code data-trim>
@@ -133,6 +136,8 @@
 					<section>
 						<aside class="notes">
 							Rotering av kube
+							
+							Neste er wireframe, for å se at det faktisk er en 3d modell.
 						</aside>
 						<pre><code data-trim data-noescape>
 									<span class="fragment">cubeMesh.rotation.x += 0.8;</span>
@@ -145,6 +150,8 @@
 					<section>
 						<aside class="notes">
 							Legge til wireframe for å faktisk se polygonene den er laget av
+
+							Neste er å endre geometrien for å lage andre objekter.
 						</aside>
 							<pre><code data-trim data-noescape>
 									<span class="fragment">material.wireframe = true;</span>
@@ -154,7 +161,7 @@
 					</section>	
 					<section>
 						<aside class="notes">
-							Dersom vi vil lage en kul
+							Dersom vi vil lage en kule
 						</aside>
 							<pre><code data-trim data-noescape>
 									<span class="fragment">var geometry = new THREE.SphereGeometry();</span>
@@ -164,7 +171,7 @@
 					</section>	
 					<section>
 						<aside class="notes">
-							Dersom vi vil lage en kul
+							Dersom vi vil lage en donut
 						</aside>
 							<pre><code data-trim data-noescape>
 									<span class="fragment">var geometry = new THREE.TorusGeometry();</span>
