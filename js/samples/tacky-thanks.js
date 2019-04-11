@@ -31,6 +31,7 @@
         var mesh = new THREE.Mesh( geometry, material );
         text.add(mesh);
         text.position.x -= 60;
+        text.position.y += 5;
       });
       var renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: true});
       renderer.setSize(1000, 700);
@@ -46,13 +47,13 @@
           //text.position.x += 0.5;
 
           text.rotation.x += 0.01;
-          text.rotation.y += 0.001;
+          text.rotation.y += 0.01;
         }else{
           //text.position.y -= 1;
           //text.position.x -= 0.5;
 
           text.rotation.x -= 0.01;
-          text.rotation.y -= 0.001;
+          text.rotation.y -= 0.01;
         }
 
         if(text.rotation.y > 50 ||text.rotation.y < -50){

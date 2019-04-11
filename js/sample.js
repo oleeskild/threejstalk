@@ -65,5 +65,13 @@
     "/js/samples/spinning-mars.js",
     "/js/samples/teapot.js",
     "/js/samples/tacky-thanks.js",
+    "/js/samples/sky-blue-scene.js",
+    "/js/samples/effect-of-light.js",
+    "/js/samples/light-cube.js",
+    "/js/samples/ambient-light-cube.js",
+    "/js/samples/hemisphere-light-cube.js",
+    "/js/samples/stationary-birds.js",
+    "/js/samples/animated-birds.js",
+    "/js/samples/rotating-light-cube.js",
     initializeOnLoad);
 })();

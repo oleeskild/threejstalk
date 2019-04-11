@@ -21,6 +21,12 @@
 			.illustration {
 				font-size: 80px !important;
 			}
+			.vanilla {
+				margin: 0 !important;
+				background: none !important;
+				border: none !important;
+				box-shadow: none !important;
+			}
 		</style>
 
 		<!-- Printing and PDF exports -->
@@ -56,267 +62,421 @@
 							Et helt barebones setup inneholder tre ting. Scene, kamera og renderer
 						</aside>
 						<h3>Setup</h3>
-						<p class="fragment fade-up illustration">Scene</p>
-						<span class="fragment fade-left illustration">Camera</span>
-						<span class="fragment fade-right illustration">Renderer</span>
+						<img class="vanilla" src="img/setup.png" />
+					</section>
+					<section>
+						<h2>Kamera</h2>
+						<pre><code data-trim>
+							// Create a Camera
+							const fov = 35; // AKA Field of View
+							const aspect = container.clientWidth / container.clientHeight;
+							
+							const near = 0.1; // the near clipping plane
+							const far = 100; // the far clipping plane
+							
+							const camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+						</code></pre>
+					</section>
+					<section>
+						<h2>Viewing Frustum</h2>
+						<img style="height: 500px;" src="img/frustum.png" class="vanilla" />
+					</section>
+					<section>
+							<h2>FOV (Field of View)</h2>	
+							<aside class="notes">
+								Fun fact: Menneskers FOV er omtrent 120 grader. 
+								Mindre enn en antilope som har øyne på begge sider av hodet. 
+								Konsoll spill som skal spilles på en skjerm langt borte er ofte 
+								mellom 40 og 60 grader. Ettersom det tar opp omtrent 
+								halvparten av synsfeltet vårt. 
+						</aside>
+							<img style="height: 600px;" src="img/frustum-explained.png" class="vanilla" />
+					</section>
+					<section>
+						<aside class="notes">
+							Legg merke til at y-aksen er omvendt fra CSS
+							</aside>
+						<h2>Posisjonering</h2>
+					<pre><code data-trim>
+							camera.position.set(0,0,10)
+					</code></pre>
+					<img style="height: 500px;" src="img/coordinatesystem-camera.png" class="vanilla" />
+					</section>
+					<section>
+						<h2>Synlige objekter</h2>
+						<img src="img/mesh.png" class="vanilla" />
+					</section>
+					<section>
+						<h2>Opprett geometri</h2>
+						<pre><code data-trim>
+							const geometry = new THREE.BoxBufferGeometry(2,2,2);
+						</code></pre>
+					</section>
+					<section>
+						<aside class="notes">
+							Vanligvis trenger man lys for å se noe 
+							I likhet med den ekte verden trenger man vanligvis lys for 
+							å se noe som helst. MeshBasicMaterial er et unntak for regelen.
+							Så dersom du ikke kan se noe, legg lys til scenen din og vær 
+							sikker på at de skinner på objektet du ønsker å se. 
+							Eventuelt bytt til MeshBasicMaterial.
+						</aside>
+						<h2>Opprett material</h2>
+						<pre><code data-trim>
+							const material = new THREE.MeshBasicMaterial();
+						</code></pre>
+						
+						<img class="vanilla fragment fade-up" src="img/Light.png" />
+					</section>
+					<section>
+						<h2>Opprette mesh</h2>
+						<pre><code data-trim>
+							const mesh = new THREE.Mesh(geometry, material);
+							scene.add(mesh);
+						</code></pre>
+					</section>
+					<section>
+						<h2>Opprette renderer</h2>
+						<pre><code data-trim>
+							const renderer = new THREE.WebGLRenderer();
+							renderer.setSize(container.clientWidth, container.clientHeight);
+							renderer.setPixelRatio(window.devicePixelRatio);
+						</code></pre>
+					</section>
+					<section>
+						<h2>Rendre scenen</h2>
+						<img src="img/threejssetup-rendered.png" class="vanilla" style="height: 500" />
+						<pre><code data-trim>
+							// render, or 'create a still image', of the scene
+							renderer.render(scene, camera);
+						</code></pre>
 					</section>
 					<section>
 						<pre><code data-trim>
-								var scene = new THREE.Scene();
-								var aspect = window.innerWidth / window.innerHeight;
-								var camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 );
-								var renderer = new THREE.WebGLRenderer({canvas: canvasElem});
-								renderer.setSize( window.innerWidth, window.innerHeight );
-								renderer.render(scene, camera);
+								const container = document.querySelector( '#scene-container' );
+
+								// create a Scene
+								const scene = new THREE.Scene();
+								
+								// Set the background color
+								scene.background = new THREE.Color( 'skyblue' );
+								
+								// Create a Camera
+								const fov = 35; // AKA Field of View
+								const aspect = container.clientWidth / container.clientHeight;
+								const near = 0.1; // the near clipping plane
+								const far = 100; // the far clipping plane
+								
+								const camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+								
+								// every object is initially created at ( 0, 0, 0 )
+								// we'll move the camera back a bit so that we can view the scene
+								camera.position.set( 0, 0, 10 );
+								
+								// create a geometry
+								const geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
+								
+								// create a default (white) Basic material
+								const material = new THREE.MeshBasicMaterial();
+								
+								// create a Mesh containing the geometry and material
+								const mesh = new THREE.Mesh( geometry, material );
+								
+								// add the mesh to the scene
+								scene.add( mesh );
+								
+								// create the renderer
+								const renderer = new THREE.WebGLRenderer();
+								
+								renderer.setSize( container.clientWidth, container.clientHeight );
+								renderer.setPixelRatio( window.devicePixelRatio );
+								
+								// add the automatically created element to the page
+								container.appendChild( renderer.domElement );
+								
+								// render, or 'create a still image', of the scene
+								renderer.render( scene, camera );
 						</code></pre>
-						<h4>🔻</h4>
-						<canvas data-sample="empty_scene"></canvas>
+						<canvas data-sample="sky_blue_scene"></canvas>
 					</section>
 				</section>
 
 				<section >
 						<section>
 								<aside class="notes">
-									For å vise objekt trenger vi et geometriobjekt, et materiale og et mesh
+									Lys, farge og bevegelse
 								</aside>
-								<h3>Object setup</h3>
-								<p class="fragment fade-up">Geometry</p>
-								<span class="fragment fade-left">Material</span>
-								<span class="fragment fade-right">Mesh</span>
+								<h2>Lys, Farge og Bevegelse</h2>
+								<canvas class="fragment" style="width: 400; heigth: 400;" data-sample="animation_text"></canvas>
 						</section>
 						<section>
-							<h3>Geometry</h3>
-							<h4>Kube</h4>
+							<h3>Animasjons loopen</h3>
 							<pre><code data-trim>
-      					var geometry = new THREE.CubeGeometry();
+								requestAnimationFrame() || window.requestAnimationFram()
 							</code></pre>
-							<h4>Kule</h4>
 							<pre><code data-trim>
-									var geometry = new THREE.SphereGeometry();
-								</code></pre>
-						</section>
-						<section>
-								<h3>Material</h3>
-								<pre><code data-trim>
-      						var material = new THREE.MeshBasicMaterial();
-								</code></pre>
-								<pre><code data-trim>
-      						var material = new THREE.MeshNormalMaterial();
-								</code></pre>
-						</section>
-						<section>
-							<h3>Mesh</h3>
-							<pre><code data-trim>
-								var mesh = new THREE.Mesh(geometry, material);
+								function animate() {
+									// call animate recursively
+									requestAnimationFrame( animate );
+								
+									// render, or 'create a still image', of the scene
+									// this will create one still image / frame each time the animate
+									// function calls itself
+									renderer.render( scene, camera );
+								}
 							</code></pre>
+						</section>
+						<section>
+							<aside class="notes">
+									MeshStandardMaterial er et "fysisk korrekt" materialet. Dvs. at det reagerer på lys slik som en forventer det vil gjøre. 
+									Scenen er nå helt svart. Som nevnt før så trengs det lys for at det skal ses.
+							</aside>
+								<h2>Farger</h2>
+								<pre><code data-trim>
+									const material = new THREE.MeshBasicMaterial({color: 0x800080})
+								</code></pre>
+								<h4 class="fragment fade-up">Standard material>Basic material</h4>
+								<pre class="fragment fade-up"><code data-trim>
+									const material = new THREE.MeshStandardMaterial({color: 0x800080});
+								</code></pre>
+						</section>
+						<section>
+							<h3>Lys</h3>
+							<pre><code data-trim>
+								const light = new THREE.DirectionalLight(0xffffff, 5.0)
+								light.position.set(10,10,10);
+								scene.add(light);
+							</code></pre>
+						</section>
+						<section>
+							<h2>Bevegelse</h2>
+							<pre><code data-trim>
+								mesh.rotation.x += 0.01;
+								mesh.rotation.y += 0.01;
+								mesh.rotation.z += 0.01;
+							</code></pre>
+							<canvas class="fragment" style="width: 400; height: 400px" data-sample="rotating_light_cube"></canvas>
+						</section>
+						<section>
+							<h2>Effekten av lys</h2>
+							<canvas style="width: 500px; height: 400px;" data-sample="effect_of_light"></canvas>
 						</section>
 				</section>
 
 				<section>
 					<section>
-						Opprette objekter
+						<h2>Tekstur-mapping</h2>
+						<p class="fragment fade-up">Ta et rektangulært bilde, og strekk det over overflaten til et 3D-objekt</p>
+						<p class="fragment fade-up">Hvordan?</p>
+						<p class="fragment fade-up">Matte!</p>
 					</section>
 					<section>
 								<aside class="notes">
-									Opprettelse av en kube
+									Last inn en tekstur
 								</aside>
 							<pre><code data-trim data-noescape>
-									var geometry = new THREE.CubeGeometry();
-									<span class="fragment">var material = new THREE.MeshNormalMaterial();
-									var cubeMesh = new THREE.Mesh(geometry, material);</span>
-									<span class="fragment">scene.add(cubeMesh);</span>
-									<span class="fragment">var renderer = new THREE.WebGLRenderer({canvas: canvas});
-									renderer.setSize( sample_defaults.width, sample_defaults.height );
-									renderer.render( scene, camera );</span>
+									// create a texture loader.
+									const textureLoader = new THREE.TextureLoader();
+
+									// Load a texture 
+									const texture = textureLoader.load( 'textures/uv_test_bw.png' );
+
+									// set the "color space" of the texture
+									texture.encoding = THREE.sRGBEncoding;
+
+									// reduce blurring at glancing angles
+									texture.anisotropy = 16;
+
+									const material = new THREE.MeshStandardMaterial( {
+										map: texture,
+									} );
 							</code></pre>
-							<h4>🔻</h4>
-						<canvas class="fragment" data-sample="stationay_cube"></canvas>
 					</section>
 
 					<section>
 						<aside class="notes">
-							Rotering av kube
-							
-							Neste er wireframe, for å se at det faktisk er en 3d modell.
+							Map kunne ha hetet colorMap, da den bare mapper farger. 
+							normalMap: Hvor bumpy et objekt er på overflaten
+							emissiveMap: Sier noe om hvor mye lys et objekt reflekterer på overflaten
+							alphaMap: Sier noe om hvor mye man kan se gjennom en tekstur
 						</aside>
-						<pre><code data-trim data-noescape>
-									<span class="fragment">cubeMesh.rotation.x += 0.8;</span>
-									<span class="fragment">cubeMesh.rotation.y += 0.8;</span>
-							</code></pre>
-							<h4>🔻</h4>
-						<canvas class="fragment" data-sample="rotated_cube"></canvas>
+						<h2>Map &asymp; colorMap</h2>
+						<ul>
+							<li class="fragment">material.normalMap</li>
+							<li class="fragment">material.emissiveMap</li>
+							<li class="fragment">material.alphaMap</li>
+						</ul>
 					</section>	
 
 					<section>
 						<aside class="notes">
-							Legge til wireframe for å faktisk se polygonene den er laget av
+							Her er et eksempel på texture mapping av et bilde på en sfære
+						</aside>
+							<img class="vanilla" style="height: 300px" src="img/earth.jpg" />
+							<canvas class="fragment" data-sample="spinning_earth"></canvas>
+							<img class="vanilla fragment" style="height: 300px" src="img/mars.jpg" />
+							<canvas class="fragment" data-sample="spinning_mars"></canvas>
+					</section>	
+				</section>
 
-							Neste er å endre geometrien for å lage andre objekter.
-						</aside>
-							<pre><code data-trim data-noescape>
-									<span class="fragment">material.wireframe = true;</span>
-							</code></pre>
-							<h4>🔻</h4>
-						<canvas class="fragment" data-sample="rotated_cube_wireframe"></canvas>
-					</section>	
+				<section>
 					<section>
-						<aside class="notes">
-							Dersom vi vil lage en kule
-						</aside>
-							<pre><code data-trim data-noescape>
-									<span class="fragment">var geometry = new THREE.SphereGeometry();</span>
-							</code></pre>
-							<h4>🔻</h4>
-						<canvas class="fragment" data-sample="rotated_sphere"></canvas>
-					</section>	
-					<section>
-						<aside class="notes">
-							Dersom vi vil lage en donut
-						</aside>
-							<pre><code data-trim data-noescape>
-									<span class="fragment">var geometry = new THREE.TorusGeometry();</span>
-							</code></pre>
-							<h4>🔻</h4>
-							<canvas class="fragment" data-sample="rotated_donut"></canvas>
-					</section>
-					<section>
-						<canvas data-sample="animation_text"></canvas>
-					</section>
-					<section>
-						<aside class="notes">
-							Slik så det ut fra før av. Vi må endre nederste linje
-						</aside>
-						<pre><code data-trim data-noescape>
-								var geometry = new THREE.CubeGeometry();
-								var material = new THREE.MeshNormalMaterial();
-								var cubeMesh = new THREE.Mesh(geometry, material);
-								scene.add(cubeMesh);
-								var renderer = new THREE.WebGLRenderer({canvas: canvas});
-								renderer.setSize( width, height );
-								renderer.render( scene, camera );
-						</code></pre>
-					</section>
-					
-					<section>
-						<pre><code data-trim data-noescape>
-								renderer.render( scene, camera );
-						</code></pre>
-							<h4>🔻</h4>
+						<h2>Kamera kontroll</h2>
 						<pre class="fragment"><code data-trim>
-								function animate() {
-									requestAnimationFrame(animate, canvas);
-					
-									mesh.rotation.x += 0.08;
-					
-									renderer.render( scene, camera );
-								}
-					
-								animate();
+								<script src="js/vendor/three/OrbitControls.js"></script>
 						</code></pre>
-						<canvas class="fragment" data-sample="rotating_cube"></canvas>
-					</section>
-					<section>
-						<aside class="notes">
-							Legge til enda et objekt
-						</aside>
-						<pre><code data-trim data-noescape>
-								var cubeGeo = new THREE.CubeGeometry();
-								var material = new THREE.MeshNormalMaterial();
-								var cubeMesh = new THREE.Mesh(cubeGeo, material);
-
-								var sphereGeo = new THREE.CubeGeometry();
-								var material = new THREE.MeshNormalMaterial();
-								var sphereMesh = new THREE.Mesh(sphereGeo, material);
-
-      					sphereMesh.position.x += 3;
-      					cubeMesh.position.x -= 3;
-
-								scene.add(cubeMesh);
-								scene.add(sphereMesh);
+						<pre class="fragment"><code data-trim>
+								controls = new THREE.OrbitControls(camera, container);
 						</code></pre>
-							<h4>🔻</h4>
-							<canvas class="fragment" data-sample="rotating_cube_and_sphere"></canvas>
-					</section>
-					<section>
-						<aside class="notes">
-							Enkelt å legge til kontroller. Kan også legge til vr kontroller
-						</aside>
-						<h3>Interaktivitet</h3>
-						<pre class="fragment"><code data-trim data-noescape>
-      				var control = new THREE.OrbitControls(camera);
-						</code></pre>
-						<div class="fragment">
-							<h4>🔻</h4>
-							<canvas data-sample="rotating_cube_and_sphere_control"></canvas>
-						</div>
-					</section>
-					<section>
-						<aside class="notes">
-							Legge til egendefinerte teksturer, som bilder
-						</aside>
-						<h3>Texture</h3>
-						<pre><code data-trim data-noescape>
-							var loader = new THREE.TextureLoader();
-							loader.load('img/earth.jpg', function(texture){
-								var material = new THREE.MeshBasicMaterial( { map: texture } );
-								var sphereGeo = new THREE.SphereGeometry();
-								var sphereMesh = new THREE.Mesh(sphereGeo, material);
-								globe.add(sphereMesh);
-							});
-							</code></pre>
-							<h4>🔻</h4>
 						<canvas class="fragment" data-sample="spinning_earth"></canvas>
 					</section>
+				</section>
+
+				<section>
+					<aside class="notes">
+						Ulempene med kun direkte Lys
+
+						I den ekte verden reflekteres lys fra veggen til objekter.
+						Lys fra lyskilden kalles direkte lys, mens reflektert lys kalles indirekte lys.
+						Sammen kalles det "global illiumination". 
+						Det ville vært utrolig dyrt for oss å gjøre. Dermed må vi jukse.
+
+						Bare legg til flere direkte lys! Nei. Dyrt å lage. Vi vil at det skal kjøre bra på mobil også. 
+
+						Vi introduserer indirekte lys, eller ambient light. Dette er et lys som
+						skinne på alle objekter uten retning
+					</aside>
+					<section>
+						<h3>Direkte lys: Ulemper</h3>
+						<img src="img/directlight.png" class="vanilla"/>
+					</section>
+					<section>
+						<canvas style="height: 500px; width: 500px" data-sample="light_cube"></canvas>
+					</section>
 					<section>
 						<aside class="notes">
-							Enkelt å bytte bilde
+							Litt bedre. Men lyset er fortsatt litt flatt
 						</aside>
-							<pre><code data-trim data-noescape>
-								var loader = new THREE.TextureLoader();
-								loader.load('img/mars.jpg', function(texture){
-									var material = new THREE.MeshBasicMaterial( { map: texture } );
-									var sphereGeo = new THREE.SphereGeometry();
-									var sphereMesh = new THREE.Mesh(sphereGeo, material);
-									globe.add(sphereMesh);
-								});
+						<h4>Ambient light</h4>
+						<pre><code data-trim data-noescape>
+							const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+							scene.add(ambientLight);
 							</code></pre>
-								<h4>🔻</h4>
-								<canvas class="fragment" data-sample="spinning_mars"></canvas>
+						<canvas style="height: 400px; width: 500px" data-sample="ambient_light_cube"></canvas>
+					</section>
+					<section>
+						<aside class="notes">
+							Hemispherelight utnytter det at i de fleste hverdagslige situasjoner
+							så skinner lys sterkere på toppen av en scene enn lenger nede. 
+						</aside>
+						<h3>Hemisphere light</h3>
+						<pre><code data-trim data-noescape>
+							const ambientLight = new THREE.HemisphereLight(
+								0xddeeff, // bright sky color
+								0x202020, // dim ground color
+								3, // intensity
+							);
+							scene.add( ambientLight );
+							</code></pre>
+
+							<canvas style="height: 300px; width: 300px" data-sample="hemisphere_light_cube"></canvas>
 					</section>
 				</section>
 
-
-				
-
 				<section>
 					<section>
-						<h1>Predefinerte 3D-modeller</h1>
-						<h3>.obj ➡️ .json</h3>
+						<aside class="notes">
+							Å lage komplekse modeller progrematisk fra bunn av er tidkrevende og nærmest umulig.
+							Heldigvis har three.js støtte for loadere for alle slags formater. Vi skal ta for oss
+							et ganske nyttt format: glTF (Graphics layer transport format)
+						</aside>
+						<h1>Eksterne modeller</h1>
 					</section>
 					<section>
-							<pre><code data-trim data-noescape>
-									var loader = new THREE.ObjectLoader();
-									loader.load("meshes/teapot.json", function(obj) {
-										var material = new THREE.MeshNormalMaterial();
-										obj.material = material;
-										group.add(obj);
+							<aside class="notes">
+								Er laget spesielt for Web, da det fokuserer på å ha liten filstørrelse og dermed 
+								rask lastetid. Vi skal prøve å rendre tre fugler med tilhørende animasjoner.
+							</aside>
+							<h2>The Graphics Layer Transport Format</h2>
+							<ul>
+								<li>Parrot.glb</li>
+								<li>Flamingo.glb</li>
+								<li>Stork.glb</li>
+							</ul>
+					</section>
+					<section>
+						<canvas style="height: 700px; width: 700px;" data-sample="stationary_birds"></canvas>
+					</section>
+					<section>
+						<canvas style="height: 700px; width: 700px;" data-sample="animated_birds"></canvas>
+					</section>
+					<section>
+						<pre><code data-trim>
+							const loader = new THREE.GLTFLoader();
+							const parrotPosition = new THREE.Vector3( 0, 0, 2.5 );
+							loader.load( 'models/Parrot.glb', gltf => onLoad( gltf, parrotPosition ), onProgress, onError );
 						
-										animate();
-									});
-								</code></pre>
-						<canvas class="fragment" data-sample="teapot"></canvas>
+							const flamingoPosition = new THREE.Vector3( 7.5, 0, -10 );
+							loader.load( 'models/Flamingo.glb', gltf => onLoad( gltf, flamingoPosition ), onProgress, onError );
+						
+							const storkPosition = new THREE.Vector3( 0, -2.5, -10 );
+							loader.load( 'models/Stork.glb', gltf => onLoad( gltf, storkPosition ), onProgress, onError );
+
+							const onLoad = ( gltf, position ) => {
+					
+								const model = gltf.scene.children[ 0 ];
+								model.position.set( position.x, position.y, position.z);
+								model.scale.set(0.05, 0.05, 0.05);
+						
+								scene.add( model );
+						
+							};
+						
+							// the loader will report the loading progress to this function
+							const onProgress = () => {};
+						
+							// the loader will send any error messages to this function, and we'll log
+							// them to to console
+							const onError = ( errorMessage ) => { console.log( errorMessage ); };
+						</code>	</pre>
+					</section>
+					<section>
+						<canvas style="width: 500px; height: 500px;" data-sample="stationary_birds"></canvas>
+					</section>
+					<section>
+						<pre><code data-trim>
+							const clock = new THREE.Clock();
+							const mixers = [];
+							const onLoad = ( gltf, position ) => {
+
+								const model = gltf.scene.children[ 0 ];
+								model.position.set( position.x, position.y, position.z);
+								model.scale.set(0.05, 0.05, 0.05);
+								
+								//NEW
+								const animation = gltf.animations[ 0 ];
+						
+								const mixer = new THREE.AnimationMixer( model );
+								mixers.push( mixer );
+						
+								const action = mixer.clipAction( animation );
+								action.play();
+
+								scene.add( model );
+						
+							};
+
+							function animate(){
+        				const delta = clock.getDelta();
+								mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
+							};					
+							</code></pre>
+					</section>
+					<section>
+						<canvas style="height: 700px; width: 700px;" data-sample="animated_birds"></canvas>
 					</section>
 				</section>
 				<section>
-					<h2>three.js in the wild</h2>
-					<div>
-						<a target="_blank" href="https://renaultespace.littleworkshop.fr/">Renault Espace</a>
-					</div>
-					<div>
-						<a target="_blank" href="https://www.nationalgeographic.com/science/2016/11/exploring-mars-map-panorama-pictures/">Rewind the red planet</a>
-					</div>
-				</section>
-
 				<section>
 					<canvas data-sample="tacky_thanks"></canvas>
 				</section>
@@ -331,6 +491,7 @@
 		crossorigin="anonymous"></script>	
 		<script src="js/three.js"></script>
 		<script src="js/OrbitControl.js"></script>
+		<script src="js/GLTFLoader.js"></script>
 		<script src="js/sample.js"></script>
 
 		<script>
